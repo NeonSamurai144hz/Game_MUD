@@ -8,6 +8,6 @@ use Jugid\Staurie\Staurie;
 require_once __DIR__.'/vendor/autoload.php'; //A REMPLACER
 $staurie = new Staurie('My game');
 $staurie->register([Console::class, PrettyPrinter::class, Menu::class]);
-$staurie->run(); //LANCE LE JEU
+$staurie->run();
 
 ?>
