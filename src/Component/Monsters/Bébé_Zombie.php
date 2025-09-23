@@ -1,5 +1,5 @@
 <?php
-namespace Games\Monsters;
+namespace Games\Component\Monsters;
 
 use Jugid\Staurie\Game\Monster;
 
