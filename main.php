@@ -5,7 +5,7 @@ use Jugid\Staurie\Component\PrettyPrinter\PrettyPrinter;
 use Mon\Name\Space;
 use Jugid\Staurie\Staurie;
 
-require_once __DIR__.'/vendor/autoload.php'; //A REMPLACER
+require_once __DIR__.'/vendor/autoload.php';
 $staurie = new Staurie('My game');
 $staurie->register([Console::class, PrettyPrinter::class, Menu::class]);
 $staurie->run();

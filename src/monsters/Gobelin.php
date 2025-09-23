@@ -17,7 +17,7 @@ class Goblin extends Monster
 
     public function level(): int
     {
-        return 2;
+        return 1;
     }
 
     public function health_points(): int
