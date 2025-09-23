@@ -3,43 +3,43 @@ namespace Games\Monsters;
 
 use Jugid\Staurie\Game\Monster;
 
-class Goblin extends Monster
+class Bébé_Zombie extends Monster
 {
     public function name(): string
     {
-        return 'Goblin';
+        return 'Bébé_Zombie';
     }
 
     public function description(): string
     {
-        return 'Un petit roumain malicieux et rapide.';
+        return 'Un infecté pur.';
     }
 
     public function level(): int
     {
-        return 1;
+        return 2;
     }
 
     public function health_points(): int
     {
-        return 15;
+        return 5;
     }
 
     public function defense(): int
     {
-        return 3;
+        return 1;
     }
 
     public function experience(): int
     {
-        return 10;
+        return 7;
     }
 
     public function skills(): array
     {
         return [
-            'attack' => 4,
-            'dodge' => 2
+            'attack' => 1,
+            'dodge' => 5
         ];
     }
 }
