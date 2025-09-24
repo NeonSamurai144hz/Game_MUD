@@ -1,5 +1,6 @@
 <?php
-namespace Games\Monsters;
+
+namespace Games\Component\Monsters;
 
 use Jugid\Staurie\Game\Monster;
 
@@ -7,17 +8,17 @@ class Chien_Zombie extends Monster
 {
     public function name(): string
     {
-        return 'Bébé_Zombie';
+        return 'Chien_Zombie';
     }
 
     public function description(): string
     {
-        return 'Un infecté pur.';
+        return 'Un infecté pur, rapide et agressif.';
     }
 
     public function level(): int
     {
-        return 52;
+        return 5; // Peut ajuster selon l’équilibrage du jeu
     }
 
     public function health_points(): int

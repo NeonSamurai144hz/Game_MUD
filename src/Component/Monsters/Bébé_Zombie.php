@@ -3,11 +3,11 @@ namespace Games\Component\Monsters;
 
 use Jugid\Staurie\Game\Monster;
 
-class Bébé_Zombie extends Monster
+class Bebe_Zombie extends Monster
 {
     public function name(): string
     {
-        return 'Bébé_Zombie';
+        return 'Bébé_Zombie'; // accent ok pour affichage
     }
 
     public function description(): string

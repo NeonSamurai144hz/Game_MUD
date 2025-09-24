@@ -1,18 +1,26 @@
 <?php
-namespace Games\Npc;
+namespace Games\Component\Npc;
 
 use Jugid\Staurie\Game\Npc;
+use Jugid\Staurie\Game\Position\Position;
 
-class Albert extends Npc
+class Alice extends Npc
 {
+    private ?Position $position;
+
+    public function __construct()
+    {
+        $this->position = null;
+    }
+
     public function name(): string
     {
-        return 'ALice';
+        return 'Alice';
     }
 
     public function description(): string
     {
-        return 'une princesse avec des secret';
+        return 'une princesse avec des secrets';
     }
 
     public function level(): int
@@ -30,8 +38,6 @@ class Albert extends Npc
         return 0;
     }
 
-
-
     public function skills(): array
     {
         return [
@@ -41,8 +47,17 @@ class Albert extends Npc
     }
 
     public function speak(): string|array
-{
-    return "hi hi hi, je suis la princesse Alice.";
-}
+    {
+        return "Hi hi hi, je suis la princesse Alice.";
+    }
 
+    public function setPosition(Position $position): void
+    {
+        $this->position = $position;
+    }
+
+    public function position(): ?Position
+    {
+        return $this->position;
+    }
 }
