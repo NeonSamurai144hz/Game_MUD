@@ -10,7 +10,7 @@ use Jugid\Staurie\Component\Character\CoreFunctions\MoveFunction;
 use Jugid\Staurie\Component\Character\CoreFunctions\SpeakFunction;
 use Jugid\Staurie\Component\Character\CoreFunctions\StatsFunction;
 use Jugid\Staurie\Component\Character\CoreFunctions\UnequipFunction;
-use Games\Component\Character\CoreFunctions\LookFunction; // <-- ajouté
+use Games\Component\Character\CoreFunctions\LookFunction;
 use Jugid\Staurie\Component\Inventory\Inventory;
 use Jugid\Staurie\Component\Level\Level;
 use Jugid\Staurie\Component\Map\Map;
@@ -113,9 +113,7 @@ class MainCharacter extends AbstractComponent
         }
     }
 
-    // -----------------------
-    // Fonctions existantes
-    // -----------------------
+
 
     final protected function new(): void { /* inchangé */ }
     final protected function me(): void { /* inchangé */ }
@@ -127,36 +125,49 @@ class MainCharacter extends AbstractComponent
     private function printNpcDialog(string $npc_name, string|array $dialog): void { /* inchangé */ }
     private function printNpcSingleDial(string $npc_name, string $dial): void { /* inchangé */ }
 
-    // ========================
-    // Nouvelle fonction look
-    // ========================
-    private function lookAround(): void
-    {
-        $map = $this->container->getMap();
-        $blueprint = $map->getCurrentBlueprint();
-        $pp = $this->container->getPrettyPrinter();
 
-        $pp->writeUnder("You are in: " . $blueprint->name(), 'green');
-        $pp->writeLn($blueprint->description());
+   private function lookAround(): void
+{
+    $map = $this->container->getMap();
+    $blueprint = $map->getCurrentBlueprint();
+    $pp = $this->container->getPrettyPrinter();
 
-        foreach ($blueprint->getNpcs() as $npc) {
-            $pp->writeLn("NPC here: " . $npc->name());
-        }
+    $pp->writeUnder("You are in: " . $blueprint->name(), 'green');
+    $pp->writeLn($blueprint->description());
 
-        foreach ($blueprint->getMonsters() as $monster) {
-            $pp->writeLn("Monster here: " . $monster->name());
-        }
+    // PNJs
+    foreach ($blueprint->getNpcs() as $npc) {
+        $pp->writeLn("NPC here: " . $npc->name());
+    }
 
-        foreach ($blueprint->getItems() as $item) {
-            $pp->writeLn("Item here: " . $item->name());
-        }
+    // Monstres
+    foreach ($blueprint->getMonsters() as $monster) {
+        $pp->writeLn("Monster here: " . $monster->name());
+    }
 
-        foreach (['north','south','east','west'] as $dir) {
-            if ($blueprint->canMove($dir)) {
-                $pp->writeLn("You can go $dir");
-            }
+    // Items
+    foreach ($blueprint->getItems() as $item) {
+        $pp->writeLn("Item here: " . $item->name());
+    }
+
+    // Directions possibles
+    $directions = [
+        'north' => ['x' => 0, 'y' => 1],
+        'south' => ['x' => 0, 'y' => -1],
+        'east'  => ['x' => 1, 'y' => 0],
+        'west'  => ['x' => -1, 'y' => 0]
+    ];
+
+    foreach ($directions as $dir => $delta) {
+        $pos = clone $map->current_position;
+        $pos->x += $delta['x'];
+        $pos->y += $delta['y'];
+
+        if ($map->getBlueprint($pos)) {
+            $pp->writeLn("You can go $dir");
         }
     }
+}
 
     final public function defaultConfiguration(): array
     {

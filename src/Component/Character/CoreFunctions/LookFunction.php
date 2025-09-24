@@ -2,27 +2,27 @@
 
 namespace Games\Component\Character\CoreFunctions;
 
-use Jugid\Staurie\Component\Console\ConsoleFunction;
-use Jugid\Staurie\Component\Console\Console;
+use Jugid\Staurie\Component\Console\AbstractConsoleFunction;
 
-class LookFunction extends ConsoleFunction
+class LookFunction extends AbstractConsoleFunction
 {
-    // Nom de la commande
     public function name(): string
     {
         return 'look';
     }
 
-    // Description visible dans le menu du console
     public function description(): string
     {
         return 'Look around your current location (see NPCs, monsters, items, directions)';
     }
 
-    // Exécution de la commande
-    public function execute(Console $console, array $args = []): void
+    public function getArgs(): int|array
     {
-        // On déclenche l'événement 'character.look'
-        $console->dispatcher()->dispatch('character.look');
+        return 0; // aucun argument
+    }
+
+    public function action(array $args): void
+    {
+        $this->getContainer()->dispatcher()->dispatch('character.look');
     }
 }
