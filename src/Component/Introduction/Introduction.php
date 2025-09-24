@@ -17,8 +17,10 @@ class Introduction extends AbstractComponent
         return [PrettyPrinter::class];
     }
 
-    public function initialize(): void {}
+    public function initialize(): void
+    {
 
+    }
     public function getEventName(): array
     {
         return ['introduction.show'];
@@ -49,8 +51,7 @@ class Introduction extends AbstractComponent
         $this->container->dispatcher()->dispatch('dialogue.start', ['character' => 'Leon']);
     }
 
-    private function printIntroduction(string|array $text, bool $scrolling, int $scrolling_speed, PrettyPrinter $pp)
-    {
+    private function printIntroduction($text, bool $scrolling, int $scrolling_speed, PrettyPrinter $pp)    {
         if (is_array($text)) {
             foreach ($text as $line) {
                 $this->printIntroduction($line, $scrolling, $scrolling_speed, $pp);
