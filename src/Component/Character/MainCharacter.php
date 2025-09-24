@@ -126,7 +126,7 @@ class MainCharacter extends AbstractComponent
     private function printNpcSingleDial(string $npc_name, string $dial): void { /* inchangé */ }
 
 
-   private function lookAround(): void
+private function lookAround(): void
 {
     $map = $this->container->getMap();
     $blueprint = $map->getCurrentBlueprint();
@@ -135,19 +135,31 @@ class MainCharacter extends AbstractComponent
     $pp->writeUnder("You are in: " . $blueprint->name(), 'green');
     $pp->writeLn($blueprint->description());
 
-    // PNJs
+    $playerX = $map->current_position->x;
+    $playerY = $map->current_position->y;
+
+    // PNJs proches
     foreach ($blueprint->getNpcs() as $npc) {
-        $pp->writeLn("NPC here: " . $npc->name());
+        $pos = $npc->position();
+        if (abs($pos->x - $playerX) <= 1 && abs($pos->y - $playerY) <= 1) {
+            $pp->writeLn("NPC here: " . $npc->name());
+        }
     }
 
-    // Monstres
+    // Monstres proches
     foreach ($blueprint->getMonsters() as $monster) {
-        $pp->writeLn("Monster here: " . $monster->name());
+        $pos = $monster->position();
+        if (abs($pos->x - $playerX) <= 1 && abs($pos->y - $playerY) <= 1) {
+            $pp->writeLn("Monster here: " . $monster->name());
+        }
     }
 
-    // Items
+    // Items proches
     foreach ($blueprint->getItems() as $item) {
-        $pp->writeLn("Item here: " . $item->name());
+        $pos = $item->position();
+        if (abs($pos->x - $playerX) <= 1 && abs($pos->y - $playerY) <= 1) {
+            $pp->writeLn("Item here: " . $item->name());
+        }
     }
 
     // Directions possibles
@@ -168,6 +180,8 @@ class MainCharacter extends AbstractComponent
         }
     }
 }
+
+
 
     final public function defaultConfiguration(): array
     {

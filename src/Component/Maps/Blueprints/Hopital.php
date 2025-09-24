@@ -40,9 +40,12 @@ class Hopital extends Blueprint
     }
 
     public function items(): array
-    {
-        return [new Munition()];
-    }
+{
+    $munition = new Munition();
+    $munition->setPosition(new Position(rand(0,10), rand(0,10)));
+    return [$munition];
+}
+
 
     public function monsters(): array
     {
