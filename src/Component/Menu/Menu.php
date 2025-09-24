@@ -1,6 +1,6 @@
 <?php
 
-namespace Games\Component\Menu ;
+namespace Games\Component\Menu;
 
 use Jugid\Staurie\Component\AbstractComponent;
 use Jugid\Staurie\Component\Console\Console;
@@ -9,24 +9,23 @@ use LogicException;
 
 class Menu extends AbstractComponent {
 
-    private const MENU_OPTIONS_ORDER = ['new_game', 'quit','continue'];
+    const MENU_OPTIONS_ORDER = ['new_game', 'quit', 'continue'];
 
     private $menu_options = [];
 
-    final public function name() : string {
+    final public function name(): string {
         return 'menu';
     }
 
-    final public function getEventName() : array {
+    final public function getEventName(): array {
         return ['menu.show'];
     }
 
-    final public function require() : array {
+    final public function require(): array {
         return [Console::class, PrettyPrinter::class];
     }
 
-    final public function initialize() : void {
-
+    final public function initialize(): void {
         foreach(self::MENU_OPTIONS_ORDER as $option) {
             if(!in_array($option, array_keys($this->config['labels']))) {
                 throw new LogicException('You MUST set all the labels for you menu labels if you change one');
@@ -36,7 +35,7 @@ class Menu extends AbstractComponent {
         }
     }
 
-    final public function defaultConfiguration() : array {
+    final public function defaultConfiguration(): array {
         return [
             'labels'=> [
                 'new_game'=> 'Nouvelle partie',
@@ -47,11 +46,11 @@ class Menu extends AbstractComponent {
         ];
     }
 
-    final protected function action(string $event, array $arguments) : void {
+    final protected function action(string $event, array $arguments): void {
         $this->eventToAction($event);
     }
 
-    final protected function show() : void {
+    final protected function show(): void {
         $pp = $this->container->getPrettyPrinter();
         $menu_title = strtoupper($this->container->state()->getGameName() .'\'s menu');
 
@@ -74,8 +73,8 @@ class Menu extends AbstractComponent {
                 $this->newgame();
                 break;
             case '2':
-               $this->continue();
-               break;
+                $this->continue();
+                break;
             case '1':
                 $this->container->state()->stop();
                 break;
@@ -86,26 +85,36 @@ class Menu extends AbstractComponent {
         }
     }
 
-    private function continue() : void {
+    private function continue(): void {
         $pp = $this->container->getPrettyPrinter();
         $pp->writeLn('la sauvegarde nest pas encore mise', null, 'red', true);
         $this->show();
     }
 
-    private function newgame() : void {
+    private function newgame(): void {
         $pp = $this->container->getPrettyPrinter();
         $pp->writeLn("bienvenu dans l'enfert \n", 'green', null, true);
+
         $this->container->dispatcher()->dispatch('character.new');
         $this->container->dispatcher()->dispatch('introduction.show');
 
-        $this->container->dispatcher()->dispatch('character.new');
+        $this->container->dispatcher()->dispatch('dialogue.show', [
+            'lines' => [
+                ['Leon', '... Ugh... My head...'],
+                ['Narrator', 'You slowly open your eyes in a cold, damp room.'],
+                ['Leon', 'This doesn\'t feel right... I need to move.']
+            ],
+            'choices' => [
+                ['text' => 'Stand up and look around', 'event' => 'character.move'],
+                ['text' => 'Call out for help', 'event' => 'character.speak'],
+                ['text' => 'Stay still and listen', 'event' => 'character.listen']
+            ]
+        ]);
+
         $pp->writeLn('');
         $this->container->dispatcher()->dispatch('map.start', [
-    'map' => 'Hopital'
-]);
-    $this->container->dispatcher()->dispatch('map.describe');
-
-
-
+            'map' => 'Hospital'
+        ]);
+        $this->container->dispatcher()->dispatch('map.describe');
     }
 }

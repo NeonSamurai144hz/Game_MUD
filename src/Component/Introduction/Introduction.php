@@ -72,9 +72,12 @@ class Introduction extends AbstractComponent
         return [
             'title' => $this->container->state()->getGameName(),
             'text' => [
-                'Bienvenue dans votre aventure à Resident Evil !',
-                'Préparez-vous à affronter des zombies et survivre dans l’ombre...',
-                'Votre mission commence maintenant !'
+                'Welcome player to Resident Evil!',
+                'In this game, you will navigate through a world filled with danger.',
+                'You are Leon S. Kennedy, a rookie cop on his first day of duty in Raccoon City.',
+                'The city is overrun by zombies and other terrifying creatures.',
+                'Your mission is to survive and uncover the truth behind the outbreak.',
+                'Your mission begins now...'
             ],
             'scrolling' => true,
             'scrolling_speed' => 5
