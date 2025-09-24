@@ -1,10 +1,24 @@
 <?php
-namespace Games\Monsters;
+namespace Games\Component\Monsters;
 
 use Jugid\Staurie\Game\Monster;
+use Jugid\Staurie\Game\Position\Position;
+
 
 class Zombie extends Monster
 {
+
+  /**
+     * Position actuelle d'Albert
+     * @var Position|null
+     */
+    private $position;
+
+    public function __construct()
+    {
+        $this->position = null;
+    }
+
     public function name(): string
     {
         return 'Zombie';
@@ -41,5 +55,15 @@ class Zombie extends Monster
             'attack' => 4,
             'dodge' => 2
         ];
+    }
+    public function setPosition(Position $position): void
+    {
+        $this->position = $position;
+    }
+
+
+    public function position(): ?Position
+    {
+        return $this->position;
     }
 }

@@ -1,10 +1,23 @@
 <?php
-namespace Games\Npc;
+namespace Games\Component\Npc;
 
 use Jugid\Staurie\Game\Npc;
+use Jugid\Staurie\Game\Position\Position;
 
 class Albert extends Npc
 {
+
+ /**
+     * Position actuelle d'Albert
+     * @var Position|null
+     */
+    private $position;
+
+    public function __construct()
+    {
+        $this->position = null;
+    }
+
     public function name(): string
     {
         return 'Albert';
@@ -45,4 +58,15 @@ class Albert extends Npc
     return "Bonjour, je suis Albert.";
 }
 
+
+public function setPosition(Position $position): void
+    {
+        $this->position = $position;
+    }
+
+
+    public function position(): ?Position
+    {
+        return $this->position;
+    }
 }
