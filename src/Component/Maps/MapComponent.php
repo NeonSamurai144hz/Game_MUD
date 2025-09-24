@@ -9,8 +9,8 @@ class MapComponent extends Map
     final public function defaultConfiguration(): array
     {
         return [
-            'directory' => __DIR__ . '/Blueprints',            // chemin vers tes blueprints
-            'namespace' => 'Games\Component\Maps\Blueprints', // namespace de tes blueprints
+            'directory' => __DIR__ . '/Blueprints', // dossier contenant tes blueprints
+            'namespace' => 'Games\Component\Maps\Blueprints',
         ];
     }
 }

@@ -387,7 +387,7 @@ class MainCharacter extends AbstractComponent
       'health_reset_after_fight' => true,
       'equipment' => [
         'head' => null,
-        'hand' => j,
+        'hand' => null,
         'shield' => null,
         'feet' => null,
         'shoulders' => null,
