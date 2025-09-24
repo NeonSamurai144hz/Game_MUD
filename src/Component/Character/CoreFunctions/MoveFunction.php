@@ -6,6 +6,17 @@ use Jugid\Staurie\Component\Console\AbstractConsoleFunction;
 
 class MoveFunction extends AbstractConsoleFunction
 {
+    public function action(array $args): void
+    {
+        $direction = $args[0] ?? null;
+        $this->dispatch('character.move', ['direction' => $direction]);
+    }
+
+    public function getArgs(): int|array
+    {
+        return [0, 1]; // Can take 0 or 1 argument
+    }
+
     public function name(): string
     {
         return 'move';
@@ -13,32 +24,6 @@ class MoveFunction extends AbstractConsoleFunction
 
     public function description(): string
     {
-        return 'Move your character on the current map. Usage: move up|down|left|right';
-    }
-
-    public function getArgs(): int|array
-    {
-        return 1; // une direction
-    }
-
-    public function action(array $args): void
-    {
-        $direction = strtolower($args[0]);
-        $valid_directions = ['up', 'down', 'left', 'right'];
-
-        if (!in_array($direction, $valid_directions)) {
-            $this->getContainer()->getPrettyPrinter()->writeLn(
-                "Invalid direction. Choose up, down, left or right.", 'red'
-            );
-            return;
-        }
-
-        $blueprint = $this->getContainer()->getMap()->getCurrentBlueprint();
-        $blueprint->move($direction);
-
-        $pos = $blueprint->position();
-        $this->getContainer()->getPrettyPrinter()->writeLn(
-            "You moved $direction. Current position: ({$pos->x}, {$pos->y})", 'green'
-        );
+        return 'Move in a direction (north, south, east, west) or ask for directions';
     }
 }

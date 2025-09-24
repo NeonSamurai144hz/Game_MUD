@@ -95,26 +95,61 @@ class Menu extends AbstractComponent {
         $pp = $this->container->getPrettyPrinter();
         $pp->writeLn("bienvenu dans l'enfer \n", 'green', null, true);
 
+        // Initialize character
         $this->container->dispatcher()->dispatch('character.new');
+
+        // Show introduction
         $this->container->dispatcher()->dispatch('introduction.show');
 
+        // Show initial dialogue with choices
         $this->container->dispatcher()->dispatch('dialogue.show', [
             'lines' => [
                 ['Leon', '... Ugh... My head...'],
                 ['Narrator', 'You slowly open your eyes in a cold, damp room.'],
+                ['Narrator', 'The air is thick with the smell of disinfectant and decay.'],
                 ['Leon', 'This doesn\'t feel right... I need to move.']
             ],
             'choices' => [
-                ['text' => 'Stand up and look around', 'event' => 'character.move'],
-                ['text' => 'Call out for help', 'event' => 'character.speak'],
-                ['text' => 'Stay still and listen', 'event' => 'character.listen']
+                [
+                    'text' => 'Stand up and look around carefully',
+                    'event' => 'character.look',
+                    'params' => []
+                ],
+                [
+                    'text' => 'Call out "Hello? Anyone there?"',
+                    'event' => 'dialogue.show',
+                    'params' => [
+                        'lines' => [
+                            ['Leon', 'Hello? Anyone there?'],
+                            ['Narrator', 'Your voice echoes in the empty room. No response.'],
+                            ['Narrator', 'But you hear a distant groaning sound...']
+                        ]
+                    ]
+                ],
+                [
+                    'text' => 'Stay still and listen to the environment',
+                    'event' => 'character.listen',
+                    'params' => []
+                ],
+                [
+                    'text' => 'Check your pockets for items',
+                    'event' => 'dialogue.show',
+                    'params' => [
+                        'lines' => [
+                            ['Leon', 'Let me check what I have...'],
+                            ['Narrator', 'You find your police badge and an empty holster.'],
+                            ['Leon', 'Great... no weapon. This keeps getting better.']
+                        ]
+                    ]
+                ]
             ]
         ]);
 
         $pp->writeLn('');
+
+        // Start the map after dialogue
         $this->container->dispatcher()->dispatch('map.start', [
             'map' => 'Hospital'
         ]);
-        $this->container->dispatcher()->dispatch('map.describe');
     }
 }

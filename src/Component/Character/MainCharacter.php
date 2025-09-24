@@ -34,11 +34,14 @@ class MainCharacter extends AbstractComponent
 
     final public function getEventName(): array
     {
-        $events = ['character.me', 'character.new', 'character.look'];
+        $events = ['character.me', 'character.new'];
 
         if ($this->container->isComponentRegistered(Map::class)) {
             $events[] = 'character.speak';
             $events[] = 'character.fight';
+            $events[] = 'character.move';   // added
+            $events[] = 'character.listen'; // added
+            $events[] = 'character.look';   // added
         }
 
         if ($this->container->isComponentRegistered(Inventory::class)) {
@@ -87,31 +90,27 @@ class MainCharacter extends AbstractComponent
         $this->equipment = $this->config['equipment'];
     }
 
-    final protected function action(string $event, array $arguments): void
+    protected function action(string $event, array $arguments): void
     {
         switch ($event) {
-            case 'character.speak':
-                $this->speak($arguments['to']);
-                break;
-            case 'character.equip':
-                $this->equip($arguments['item'], $arguments['body_part']);
-                break;
-            case 'character.unequip':
-                $this->unequip($arguments['item'], $arguments['body_part']);
-                break;
-            case 'character.stats':
-                $this->stats($arguments['type'], $arguments['stat']);
-                break;
-            case 'character.fight':
-                $this->fight($arguments['monster']);
-                break;
             case 'character.look':
-                $this->lookAround();
+                $this->onCharacterLook($arguments);
                 break;
-            default:
-                $this->eventToAction($event);
+            case 'character.speak':
+                $this->speak(
+                    $arguments['to'] ?? 'Unknown',
+                    $arguments['line'] ?? '...'
+                );
+                break;
+            case 'character.move':
+                $this->onCharacterMove($arguments);
+                break;
+            case 'character.listen':
+                $this->onCharacterListen($arguments);
+                break;
         }
     }
+
 
 
 
@@ -168,6 +167,58 @@ class MainCharacter extends AbstractComponent
         }
     }
 }
+    private function onCharacterMove(array $args = []): void
+    {
+        $pp = $this->container->getPrettyPrinter();
+
+        // Ask a direction or accept a preset from payload
+        $direction = $args['direction'] ?? null;
+        if (!$direction) {
+            $pp->writeLn("Which direction? (north, south, east, west)", null, null, true);
+            $direction = trim((string)readline('>> '));
+        }
+
+        if ($direction === '') {
+            $pp->writeLn("You stay where you are.", null, null, true);
+            return;
+        }
+
+        // Try to dispatch a map movement event (map component should handle it)
+        $this->container->dispatcher()->dispatch('map.move', ['direction' => $direction]);
+
+        // Fallback message (map.move handler may give better output)
+        $pp->writeLn("You move {$direction}.", null, null, true);
+    }
+
+    private function onCharacterListen(array $args = []): void
+    {
+        $pp = $this->container->getPrettyPrinter();
+        // simple atmospheric feedback; other components can react to 'world.noise'
+        $pp->writeScroll("You hold still and listen... a distant groan comes from the east.", 8, true);
+        $this->container->dispatcher()->dispatch('world.noise', ['type' => 'groan', 'direction' => 'east']);
+    }
+
+    private function onCharacterLook(array $args = []): void
+    {
+        $pp = $this->container->getPrettyPrinter();
+        $map = $this->container->getMap();
+
+        // Try to read current blueprint description if available
+        $descr = null;
+        if ($map && method_exists($map, 'getCurrentBlueprint')) {
+            $bp = $map->getCurrentBlueprint();
+            if ($bp && method_exists($bp, 'description')) {
+                $descr = $bp->description();
+            }
+        }
+
+        if ($descr) {
+            $pp->writeScroll("You look around: " . $descr, 8, true);
+        } else {
+            // fallback descriptive text
+            $pp->writeScroll("You look around: a cracked window, an old cabinet, and a locked heavy door.", 8, true);
+        }
+    }
 
     final public function defaultConfiguration(): array
     {
