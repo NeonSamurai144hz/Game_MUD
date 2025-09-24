@@ -1,6 +1,6 @@
 <?php
 
-namespace Games\Component\Maps;
+namespace Games\Component\Maps\Blueprints;
 
 use Jugid\Staurie\Component\Map\Blueprint;
 use Jugid\Staurie\Game\Position\Position;
@@ -35,16 +35,13 @@ class Hopital extends Blueprint
     public function npcs(): array
     {
         $albert = new Albert();
-        $albert->setPosition(new Position(rand(0, 10), rand(0, 10)));
-
+        $albert->setPosition(new Position(rand(0,10), rand(0,10)));
         return [$albert];
     }
 
     public function items(): array
     {
-        return [
-            new Munition(),
-        ];
+        return [new Munition()];
     }
 
     public function monsters(): array
@@ -52,7 +49,7 @@ class Hopital extends Blueprint
         $monsters = [];
         for ($i = 0; $i < 5; $i++) {
             $zombie = new Zombie();
-            $zombie->setPosition(new Position(rand(0, 10), rand(0, 10)));
+            $zombie->setPosition(new Position(rand(0,10), rand(0,10)));
             $monsters[] = $zombie;
         }
         return $monsters;
