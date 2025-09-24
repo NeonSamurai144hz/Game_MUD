@@ -116,16 +116,21 @@ class MainCharacter extends AbstractComponent
     }
   }
 
-  final protected function new()
-  {
-    if (!$this->config['ask_name']) {
-      $this->name = $this->config['name'];
+    final protected function new()
+    {
+        if (!$this->config['ask_name']) {
+            $this->name = $this->config['name'];
+        }
+
+        $pp = $this->container->getPrettyPrinter();
+        $pp->writeLn('...', 'yellow');
+        sleep(1);
+        $pp->writeLn('My head... Where am I?', 'yellow');
+        sleep(1);
+        $pp->writeLn('...I need to find out what happened here.', 'yellow');
+        sleep(1);
+        $pp->writeLn('Welcome ' . $this->name, 'green');
     }
-
-
-    $pp = $this->container->getPrettyPrinter();
-    $pp->writeLn('Welcome ' . $this->name, 'green');
-  }
 
   final protected function me()
   {
@@ -379,7 +384,7 @@ class MainCharacter extends AbstractComponent
   {
     return [
       'name' => 'Leon Kennedy',
-      'gender' => 'Unknown',
+      'gender' => 'male',
       'ask_name' => 'false',
       'character_has_name' => true,
       'statistics' => Statistics::default(),
@@ -393,7 +398,7 @@ class MainCharacter extends AbstractComponent
       'health_reset_after_fight' => true,
       'equipment' => [
         'head' => null,
-        'hand' => j,
+        'hand' => null,
         'shield' => null,
         'feet' => null,
         'shoulders' => null,

@@ -1,5 +1,6 @@
 <?php
 
+use Games\Component\Dialogue\DialogueComponent;
 use Jugid\Staurie\Component\Console\Console;
 use Games\Component\Menu\Menu;
 use Jugid\Staurie\Component\PrettyPrinter\PrettyPrinter;
@@ -18,6 +19,7 @@ $staurie->register([
     PrettyPrinter::class,
     Menu::class,
     Introduction::class, // <-- ajouter ici
+    DialogueComponent::class,
     MainCharacter::class
 ]);
 

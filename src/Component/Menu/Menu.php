@@ -94,7 +94,7 @@ class Menu extends AbstractComponent {
 
     private function newgame() : void {
         $pp = $this->container->getPrettyPrinter();
-        $pp->writeLn("bienvenu dans l'enfert \n", 'green', null, true);
+        $pp->writeLn("bienvenu dans l'enfer \n", 'green', null, true);
         $this->container->dispatcher()->dispatch('character.new');
         $this->container->dispatcher()->dispatch('introduction.show');
         $pp->writeLn('');
