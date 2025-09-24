@@ -4,15 +4,14 @@ namespace Games\Maps;
 use Jugid\Staurie\Component\Map\Blueprint;
 use Jugid\Staurie\Game\Position\Position;
 
-class Hospital extends Blueprint
+class Foret extends Blueprint
 {
     private Position $position;
 
     public function __construct()
     {
-        $this->position = new Position(0, 0); // Position initiale comme dans Map01
+        $this->position = new Position(1, 0);
     }
-
     public function npcs(): array
     {
         return [];
@@ -22,7 +21,6 @@ class Hospital extends Blueprint
     {
         return [];
     }
-
     public function monsters(): array
     {
         return [];
@@ -30,16 +28,18 @@ class Hospital extends Blueprint
 
     public function name(): string
     {
-        return "Hôpital";
+        return "Forêt dense";
     }
-
     public function description(): string
     {
-        return "Vous êtes dans un hôpital abandonné.";
+        return "Vous êtes dans une forêt dense. Les arbres sont hauts et épais, 
+        avec des feuilles qui forment un toit presque impénétrable au-dessus de vous. 
+        Le sol est couvert de feuilles mortes et de branches cassées, et l'air est frais 
+        et humide.";
     }
 
     public function position(): Position
     {
-        return $this->position; // Retourne la position stockée
+        return $this->position;
     }
 }
